@@ -24,3 +24,24 @@ bootstrap/
 │   └── services.json
 └── README.md                # Usage and layout docs
 ```
+
+## Alt Structure (wip)
+
+```
+bootstrap/
+├── __main__.py            # Entry point
+├── core/
+│   ├── logger.py          # Unified logging
+│   ├── prompts.py         # (Optional) interactive / fallback prompts
+│   ├── utils.py           # Shared helper functions
+├── modules/
+│   ├── system.py          # Hostname, locales, basic packages
+│   ├── security.py        # Firewall, Portmaster, etc.
+│   ├── devtools.py        # Git, editors, CLI tools
+│   ├── desktop.py         # Gnome setup, extensions, themes
+│   └── cleanup.py         # Orphan packages, bloat removal
+├── config/
+│   └── defaults.json      # Optional default settings
+└── README.md              # Explanation and setup
+
+```
