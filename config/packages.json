@@ -1,0 +1,69 @@
+{
+  "dnf": {
+    "dev": [
+      "git",
+      "curl",
+      "wget",
+      "gnupg",
+      "unzip",
+      "gzip",
+      "tar",
+      "rsync",
+      "make",
+      "cmake",
+      "gcc",
+      "gcc-c++",
+      "clang",
+      "lldb",
+      "luarocks",
+      "uv",
+      "rust",
+      "ruff",
+      "ruff-lsp",
+      "pytest",
+      "helix",
+      "rust-eza"
+    ],
+    "utilities": [
+      "btop",
+      "jq",
+      "fzf",
+      "bat",
+      "fd-find",
+      "ripgrep",
+      "neovim",
+      "nano",
+      "vim",
+      "p7zip",
+      "fastfetch",
+      "fuse3",
+      "stow",
+      "trash-cli",
+      "multitail",
+      "tealdeer",
+      "yazi",
+      "kitty"
+    ],
+    "security": [
+      "ufw",
+      "fail2ban",
+      "rkhunter",
+      "lynis",
+      "mullvad-browser",
+      "mullvad-vpn",
+      "1password",
+      "1password-cli"
+    ]
+  },
+  "flatpak": [
+    "dev.zed.Zed",
+    "com.github.Eloston.UngoogledChromium",
+    "md.obsidian.Obsidian",
+    "org.freecadweb.FreeCAD",
+    "org.kicad_pcb.KiCad",
+    "org.onlyoffice.desktopeditors",
+    "com.discordapp.Discord",
+    "org.gimp.GIMP",
+    "app.zen_browser.zen"
+  ]
+}

@@ -31,6 +31,11 @@ def get_logfile_path():
     return logfile
 
 
+def print_and_log(message):
+    print(message)
+    log_line(message)
+
+
 def log_line(message):
     logfile = get_logfile_path()
 
@@ -45,3 +50,18 @@ def print_and_log_header(label):
     logfile = get_logfile_path()
     with open(logfile, "a") as log:
         log.write(block + "\n")
+
+
+def get_os_version():
+    os_release = Path("/etc/os-release")
+
+    if not os_release.exists():
+        raise FileNotFoundError("/etc/os-release not found. Are you linux?")
+
+    with os_release.open("r") as file:
+        for line in file:
+            if line.startswith("VERSION_ID="):
+                version = line.strip().split("=")[1].strip('"')
+                return version
+
+    raise ValueError("VERSION_ID not foung in /etc/os-release")

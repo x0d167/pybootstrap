@@ -26,3 +26,7 @@ exit_messages = {
     3: "Unknown error occurred. Investigate.",
     200: "Lock error. Is another package manager running?",
 }
+
+
+MULLVAD_REPO = Path("/etc/yum.repos.d/mullvad.repo")
+ONE_PASSWORD = Path("/etc/yum.repos.d/1password.repo")
