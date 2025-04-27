@@ -9,7 +9,6 @@ def run_cmd(cmd):
     process = subprocess.Popen(
         cmd,
         shell=False,
-        check=False,
         stdout=subprocess.PIPE,
         stderr=subprocess.STDOUT,
         text=True,
