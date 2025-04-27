@@ -1,7 +1,7 @@
 from pathlib import Path
 from utils import common as util
-from utils import ESCALATE, PKG, MULLVAD_REPO, ONE_PASSWORD
-from utils import exit_messages, RPM, rpm_url
+from utils.aliases import ESCALATE, PKG, MULLVAD_REPO, ONE_PASSWORD
+from utils.aliases import exit_messages, RPM, rpm_url
 
 
 def install_rpm_fusion():

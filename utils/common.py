@@ -1,7 +1,7 @@
 import subprocess
 from pathlib import Path
 from datetime import datetime
-from utils import PROJECT_NAME
+from utils.aliases import PROJECT_NAME
 
 
 def run_cmd(cmd):

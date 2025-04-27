@@ -1,6 +1,6 @@
 from pathlib import Path
 from utils import common as util
-from utils import exit_messages, ESCALATE, PKG
+from utils.aliases import exit_messages, ESCALATE, PKG
 
 
 def full_system_update():

@@ -1,6 +1,6 @@
 from pathlib import Path
 from utils import common as util
-from utils import ESCALATE, PKG
+from utils.aliases import ESCALATE, PKG
 import json
 
 

@@ -1,7 +1,7 @@
 import os
 from pathlib import Path
 from utils import common as util
-from utils import PKG, ESCALATE
+from utils.aliases import PKG, ESCALATE
 
 
 def install_nerd_fonts():
