@@ -43,7 +43,7 @@ def optimize_dnf():
         ("fastestmirror", "True"),
         ("defaultyes", "True"),
     ]:
-        if not util.ensure_dnf_settings(setting, value):
+        if not ensure_dnf_settings(setting, value):
             message = f"Failed to apply {setting}. Check permissions or path."
             util.print_and_log(message)
 

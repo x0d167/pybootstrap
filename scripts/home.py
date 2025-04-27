@@ -14,6 +14,7 @@ def setup_home_directories():
         home / "bin",
         home / "dev",
         home / "docs",
+        home / "media",
         home / "tmp",
         home / "logarchive",
     ]
