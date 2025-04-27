@@ -42,7 +42,8 @@
       "multitail",
       "tealdeer",
       "yazi",
-      "kitty"
+      "kitty",
+      "zoxide"
     ],
     "security": [
       "ufw",

@@ -1,60 +1,92 @@
-# pybootstrap
+---
+# 📦 pybootstrap
 
-Converting my large Fedora bash bootstrap script to python for... reasons...
+A simple, modular Python bootstrap script for setting up a clean Fedora laptop environment.
+---
 
-I don't plan to distrohop often, so I may or may not expand it to be
-environment agnostic. This is a super simplistic way to automate my
-personal dotfiles and is basically just a toy utility script sitting on my laptop.
+## 🛠 What it Does
 
-Honestly, the final project structure will depend. I've already deviated from
-the structure outlined below. Let's just say, that's the initial gut check, and
-we'll see what we see. Right now I'm just replicating my scripts and testing them.
-When I have it all, I'll decide what makes sense.
+- Organizes my Home directory structure
+- Updates and upgrades my Fedora system
+- Adds important repositories (RPM Fusion, Mullvad, 1Password, ProtonVPN, etc.)
+- Installs core system and development packages (DNF, Flatpak)
+- Installs and organizes Nerd Fonts
+- Applies security hardening:
+  - Sets up UFW firewall
+  - Applies sysctl network settings
+  - Enables Fail2ban
+  - Installs Portmaster
+- Final cleanup and system refresh
 
-Plan is to be as low stress as my current bash scripts. Spin up a new system and
-run it. It should organize my home directory the way I like, install all the
-packages I care about, set up my system the way I like (firewall, systemd schedules,
-port monitoring, vpn, device maintenance schedules, keybindings, etc), and then
-set up my dotfiles so I feel right at home with my tools. It should be a set it
-and forget it, and all I need to do after is log into things and do the finishing
-touches.
+---
 
-## Project Structure
+## 📂 Project Structure
 
-```bash
-bootstrap/
-├── main.py                  # Entry point
-├── utils/
-│   ├── __init__.py
-│   ├── packages.py          # Install, remove, query packages
-│   ├── flatpak.py           # Flatpak-specific setup
-│   ├── files.py             # Symlinks, dotfile copy/setup
-│   ├── services.py          # Enable/disable systemd units
-│   └── logging.py           # Unified CLI output/logging
+```text
+pybootstrap/
+├── main.py              # Master orchestrator
+├── README.md
 ├── config/
-│   ├── packages.json        # Lists of packages to install by category
-│   ├── flatpaks.json
-│   └── services.json
-└── README.md                # Usage and layout docs
+│   └── packages.json    # DNF and Flatpak package lists
+├── scripts/
+│   ├── fonts.py
+│   ├── home.py
+│   ├── packages.py
+│   ├── repo.py
+│   ├── system.py
+│   └── security.py
+└── utils/
+    ├── aliases.py
+    ├── common.py
+    ├── 1password.txt    # Repo template
+    └── mullvad.txt      # Repo template
 ```
 
-## Alt Structure (wip)
+---
+
+## 🚀 How to Run
+
+> ⚡ Important: This script assumes a clean Fedora install, and will modify your system configuration.
+
+1. Clone or download this repository
+2. Open a terminal in the `pybootstrap/` directory
+3. Make sure you have Python 3 installed
+4. Run:
 
 ```bash
-bootstrap/
-├── __main__.py            # Entry point
-├── core/
-│   ├── logger.py          # Unified logging
-│   ├── prompts.py         # (Optional) interactive / fallback prompts
-│   ├── utils.py           # Shared helper functions
-├── modules/
-│   ├── system.py          # Hostname, locales, basic packages
-│   ├── security.py        # Firewall, Portmaster, etc.
-│   ├── devtools.py        # Git, editors, CLI tools
-│   ├── desktop.py         # Gnome setup, extensions, themes
-│   └── cleanup.py         # Orphan packages, bloat removal
-├── config/
-│   └── defaults.json      # Optional default settings
-└── README.md              # Explanation and setup
-
+python3 main.py
 ```
+
+✅ Done! The system will walk through each setup stage automatically and log it.
+
+---
+
+## ⚠️ Warnings
+
+- This script assumes **you want opinionated defaults** for directory layout, security, and installed packages.
+- You should review the `scripts/` and `config/` folders first if you want to customize.
+- While it _should_ be safe, **always have a backup** before using automation like this on a fresh system.
+
+---
+
+## 🧠 Notes
+
+- Fedora is assumed, but could be adapted to other RPM-based distros.
+- Some error handling is intentionally light — this is designed for **personal use**, not public distribution.
+- After bootstrap, you should manually configure:
+  - rkhunter
+  - lynis
+  - any desktop environment tweaks
+
+---
+
+# 🎯 Final Thoughts
+
+This project was built as a learning exercise to deepen skills in:
+
+- Python
+- Linux automation
+- Project structuring
+- Modular scripting philosophy
+
+And it's designed to evolve over time.

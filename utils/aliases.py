@@ -1,6 +1,10 @@
 from pathlib import Path
 from types import SimpleNamespace
 
+# LOL this thing is so disorganized!!
+
+PROJECT_NAME = "pybootstrap"
+
 rpm_url = [
     "https://mirrors.rpmfusion.org/free/fedora/rpmfusion-free-release-$(rpm -E %fedora).noarch.rpm",
     "https://mirrors.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-$(rpm -E %fedora).noarch.rpm",

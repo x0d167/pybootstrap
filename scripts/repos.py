@@ -1,59 +1,11 @@
 from pathlib import Path
 from utils import common as util
-from utils import RPM, rpm_url, exit_messages, ESCALATE, PKG
-from utils import MULLVAD_REPO, ONE_PASSWORD
-
-
-def full_system_update():
-    util.print_and_log_header("DNF Update")
-    cmd = [ESCALATE, PKG.d, "upgrade", "--refresh", "-y"]
-    exit_code, output = util.run_cmd(cmd)
-    message = exit_messages.get(exit_code, "Unexpected return code")
-    util.print_and_log(message)
-
-    util.print_and_log_header("Flatpak Update")
-    flatpak_exit_code, output = util.run_cmd([PKG.f, "update", "-y"])
-    flatpak_code = exit_messages.get(flatpak_exit_code, "Unexpected return code")
-    util.print_and_log(flatpak_code)
-
-
-def system_clean():
-    util.print_and_log_header("Remove Orphaned Packages")
-    remove, output = util.run_cmd([ESCALATE, PKG.d, "autoremove", "-y"])
-    message_remove = exit_messages.get(remove, "Unexpected return code")
-    util.print_and_log(message_remove)
-
-    util.print_and_log_header("Clean DNF Cache")
-    clean, output = util.run_cmd([ESCALATE, PKG.d, "clean", "all"])
-    message_clean = exit_messages.get(clean, "Unexpected return code")
-    util.print_and_log(message_clean)
-
-    util.print_and_log_header("Cleaning Unused Flatpaks")
-    flatpak_clean, output = util.run_cmd([PKG.f, "uninstall", "--unused", "-y"])
-    flatpak_code = exit_messages.get(flatpak_clean, "Unexpected return code")
-    util.print_and_log(flatpak_code)
-
-
-def optimize_dnf():
-    util.print_and_log_header("Optimizing DNF Settings")
-    for setting, value in [
-        ("max_parallel_downloads", "10"),
-        ("fastestmirror", "True"),
-        ("defaultyes", "True"),
-    ]:
-        if not util.ensure_dnf_settings(setting, value):
-            message = f"Failed to apply {setting}. Check permissions or path."
-            util.print_and_log(message)
-
-    util.print_and_log_header("Installing DNF Plugins")
-    exit_code, output = util.run_cmd(
-        [ESCALATE, PKG.d, "install", "-y", "dnf-plugins-core"]
-    )
-    message = exit_messages.get(exit_code, "Unexpected return code")
-    util.print_and_log(message)
+from utils import ESCALATE, PKG, MULLVAD_REPO, ONE_PASSWORD
+from utils import exit_messages, RPM, rpm_url
 
 
 def install_rpm_fusion():
+    """Installs RPM Fusion if not present."""
     util.print_and_log_header("Installing RPM Fusion")
     if RPM["free"].exists() and RPM["nonfree"].exists():
         message = "RPM Fusion is already installed."
@@ -66,6 +18,7 @@ def install_rpm_fusion():
 
 
 def enable_mullvad_repo():
+    """Enable Mullvad Repo for later installation of vpn"""
     util.print_and_log_header("Enabling Mullvad Repo")
     mullvad_repo = MULLVAD_REPO
     mullvad_template = Path("utils/mullvad.txt")
@@ -94,6 +47,7 @@ def enable_mullvad_repo():
 
 
 def enable_1password_repo():
+    """Enable the 1Password Repo for later installation."""
     util.print_and_log_header("Enabling 1Password Repo")
     onepassword_repo = ONE_PASSWORD
     onepassword_template = Path("utils/1password.txt")
@@ -138,6 +92,7 @@ def enable_1password_repo():
 
 
 def enable_yazi_copr():
+    """Enables yazi copr repo for later installation with packages."""
     util.print_and_log_header("Enabling lihaohong/yazi copr")
     exit_code, _ = util.run_cmd([ESCALATE, PKG.d, "copr", "enable", "lihaohong/yazi"])
     if exit_code == 0:
@@ -147,6 +102,7 @@ def enable_yazi_copr():
 
 
 def enable_protonvpn_repo():
+    """Enables ProtonVPN Repo and installs it"""
     util.print_and_log_header("Enabling ProtonVPN Repo")
     os_version = int(util.get_os_version())
     proton_rpm = "protonvpn-stable-release-1.0.3-1.noarch.rpm"
@@ -191,42 +147,8 @@ def enable_protonvpn_repo():
         util.print_and_log("Failed to install ProtonVPN client.")
 
 
-def ensure_dnf_settings(setting, value):
-    """Ensure a key=value line is present in  /etc/dnf/dnf.conf"""
-    conf_path = Path("/etc/dnf/dnf.conf")
-
-    try:
-        with conf_path.open("r") as file:
-            lines = file.readlines()
-    except PermissionError:
-        print("You need to run this script with elevated privileges.")
-        return
-    except FileNotFoundError:
-        print("dnf.conf not found! Are you sure DNF is installed?")
-        return
-
-    setting_line = f"{setting}={value}\n"
-    found = False
-
-    for i, line in enumerate(lines):
-        if line.strip().startswith(f"{setting}="):
-            lines[i] = setting_line
-            found = True
-            break
-
-    if not found:
-        lines.append(setting_line)
-
-    with conf_path.open("w") as file:
-        file.writelines(lines)
-
-    message = f"Ensured: {setting}={value}"
-    util.log_line(message)
-
-    return True
-
-
 def enable_openh264_repo():
+    """Enables non-FOSS media codec"""
     util.print_and_log_header("Enable OpenH264 Codec Repo")
 
     # Check if the repo is enabled
@@ -240,3 +162,25 @@ def enable_openh264_repo():
             util.print_and_log("OpenH264 repo enabled successfully.")
         else:
             util.print_and_log("Failed to enable OpenH264 repo.")
+
+
+def add_needed_repos():
+    util.print_and_log_header("Adding Needed Repos")
+
+    # Start with RPM Fusion if not already installed.
+    install_rpm_fusion()
+
+    # Enable 1Password repo
+    enable_1password_repo()
+
+    # Enable Mullvad repo
+    enable_mullvad_repo()
+
+    # Enable ProtonVPN repo
+    enable_protonvpn_repo()
+
+    # Enable Yazi copr
+    enable_yazi_copr()
+
+    # Enable openH264 repo
+    enable_openh264_repo()
