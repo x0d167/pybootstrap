@@ -1,5 +1,7 @@
 import time
 import subprocess
+import os
+import sys
 from pathlib import Path
 from scripts import packages, security, repos, system, home, fonts
 from utils import common as util
@@ -39,6 +41,12 @@ def main():
 
 
 if __name__ == "__main__":
+    # 🛡️ Check for sudo/root privileges
+    if os.geteuid() != 0:
+        print("❌ This script must be run with elevated privileges (sudo).")
+        print("💡 Try: sudo python3 main.py")
+        sys.exit(1)
+
     start_time = time.time()
     main()
     end_time = time.time()
