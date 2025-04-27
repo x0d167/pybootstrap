@@ -1,18 +1,28 @@
 from pathlib import Path
 from utils import common as util
 from utils.aliases import ESCALATE, PKG, MULLVAD_REPO, ONE_PASSWORD
-from utils.aliases import exit_messages, RPM, rpm_url
+from utils.aliases import exit_messages, RPM
 
 
 def install_rpm_fusion():
     """Installs RPM Fusion if not present."""
     util.print_and_log_header("Installing RPM Fusion")
+
+    # Dynamically get Fedora version
+    _, fedora_version = util.run_cmd(["rpm", "-E", "%fedora"])
+    fedora_version = fedora_version.strip()
+
+    rpm_urls = [
+        f"https://mirrors.rpmfusion.org/free/fedora/rpmfusion-free-release-{fedora_version}.noarch.rpm",
+        f"https://mirrors.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-{fedora_version}.noarch.rpm",
+    ]
+
     if RPM["free"].exists() and RPM["nonfree"].exists():
         message = "RPM Fusion is already installed."
         util.print_and_log(message)
     else:
-        for url in rpm_url:
-            exit_code, output = util.run_cmd([ESCALATE, PKG.d, "install", "-y", url])
+        for url in rpm_urls:
+            exit_code, _ = util.run_cmd([ESCALATE, PKG.d, "install", "-y", url])
             message = exit_messages.get(exit_code, "Unexpected return code")
             util.print_and_log(message)
 
