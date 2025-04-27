@@ -94,7 +94,9 @@ def enable_1password_repo():
 def enable_yazi_copr():
     """Enables yazi copr repo for later installation with packages."""
     util.print_and_log_header("Enabling lihaohong/yazi copr")
-    exit_code, _ = util.run_cmd([ESCALATE, PKG.d, "copr", "enable", "lihaohong/yazi"])
+    exit_code, _ = util.run_cmd(
+        [ESCALATE, PKG.d, "copr", "enable", "--yes", "lihaohong/yazi"]
+    )
     if exit_code == 0:
         util.print_and_log("lihaohong/yazi successfully enabled.")
     else:
@@ -152,12 +154,12 @@ def enable_openh264_repo():
     util.print_and_log_header("Enable OpenH264 Codec Repo")
 
     # Check if the repo is enabled
-    result, output = util.run_cmd(["dnf", "repolist", "enabled"])
+    result, output = util.run_cmd([PKG.d, "repolist", "enabled"])
     if "fedora-cisco-openh264" in output:
         util.log_line("OpenH264 repo already enabled.")
     else:
         util.log_line("Enabling fedora-cisco-openh264 repo...")
-        result, output = util.run_cmd([...])
+        result, output = util.run_cmd([PKG.d, "repolist", "enabled"])
         if result == 0:
             util.print_and_log("OpenH264 repo enabled successfully.")
         else:
