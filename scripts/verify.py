@@ -27,7 +27,11 @@ def check_user_dirs(expected_mappings):
 
 def check_package_installed(package_name):
     result = subprocess.run(["rpm", "-q", package_name], stdout=subprocess.DEVNULL)
-    return result.returncode == 0
+    if result.returncode == 0:
+        return True
+    else:
+        doublecheck = subprocess.run(["which", package_name], stdout=subprocess.DEVNULL)
+        return doublecheck.returncode == 0
 
 
 def check_flatpak_installed(app_id):

@@ -27,15 +27,21 @@ def install_new_packages():
                         util.print_and_log(f"Checking for {pkg}...")
                         exit_code = util.run_cmd([PKG.d, "list", "installed", str(pkg)])
                         if exit_code != 0:
-                            util.print_and_log(f"{pkg} not found. Installing now.")
-                            install_code = util.run_cmd(
-                                [ESCALATE, PKG.d, "install", "-y", str(pkg)]
-                            )
-                            if install_code == 0:
-                                util.print_and_log(f"{pkg} install successful")
+                            fail_exit = util.run_cmd(["which", str(pkg)])
+                            if fail_exit != 0:
+                                util.print_and_log(f"{pkg} not found. Installing now.")
+                                install_code = util.run_cmd(
+                                    [ESCALATE, PKG.d, "install", "-y", str(pkg)]
+                                )
+                                if install_code in (0, 10):
+                                    util.print_and_log(f"{pkg} install successful")
+                                else:
+                                    util.print_and_log(
+                                        f"{pkg} install failed. Install manually."
+                                    )
                             else:
                                 util.print_and_log(
-                                    f"{pkg} install failed. Install manually."
+                                    f"{pkg} already installed, skipping..."
                                 )
                         else:
                             util.print_and_log(f"{pkg} already installed, skipping...")
