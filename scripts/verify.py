@@ -59,7 +59,7 @@ def log_message(message):
 
     logfile = logpath / "bootstrap-verify.log"
     with open(logfile, "a") as log:
-        log.write(message)
+        log.write(message + "\n")
 
 
 def print_and_log(message):
@@ -130,7 +130,7 @@ def main():
                         )
 
             case "flatpak":
-                for pkg in pkg_list:
+                for pkg in segment:
                     checks.append(
                         (f"Flatpak App installed: {pkg}", check_flatpak_installed(pkg))
                     )

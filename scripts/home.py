@@ -30,7 +30,7 @@ def setup_home_directories():
         "XDG_DESKTOP_DIR": "$HOME/archive/desktop",
         "XDG_DOWNLOAD_DIR": "$HOME/tmp",
         "XDG_TEMPLATES_DIR": "$HOME/archive/templates",
-        "XDG_PUBLICSHARE_DIR": "$HOME/tmp",
+        "XDG_PUBLICSHARE_DIR": "$HOME/tmp/public",
         "XDG_DOCUMENTS_DIR": "$HOME/docs",
         "XDG_MUSIC_DIR": "$HOME/media/music",
         "XDG_PICTURES_DIR": "$HOME/media/pictures",

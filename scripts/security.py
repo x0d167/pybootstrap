@@ -38,6 +38,9 @@ def enable_and_configure_ufw():
 
     util.print_and_log("UFW is now enabled. Firewall status checked!")
 
+    util.print_and_log("Enabling and starting UFW systemd service...")
+    util.run_cmd([ESCALATE, "systemctl", "enable", "--now", "ufw"])
+
 
 def sysctl_system_hardening():
     """Add settings hardening sysctl with sensible defaults"""
