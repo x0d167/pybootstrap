@@ -61,12 +61,20 @@ def install_terminus_console_font():
         else:
             util.print_and_log("Failed to install Terminus console font.")
 
-    # Set Terminus as the default console font in /etc/vconsole.conf
-    util.print_and_log("Setting Terminus font in /etc/vconsole.conf...")
-    exit_code = util.run_cmd(
-        [ESCALATE, "sed", "-i", "s/^FONT=.*/FONT=ter-v32b/", "/etc/vconsole.conf"]
-    )
-    if exit_code != 0:
+    # Check if FONT is already set correctly
+    try:
+        with open("/etc/vconsole.conf", "r") as file:
+            vconsole_contents = file.read()
+    except FileNotFoundError:
+        vconsole_contents = ""
+
+    if "FONT=ter-v32b" in vconsole_contents:
+        util.print_and_log("Console font already set to ter-v32b.")
+    else:
+        util.print_and_log("Setting Terminus font in /etc/vconsole.conf...")
+        # Remove any existing FONT= line
+        util.run_cmd([ESCALATE, "sed", "-i", "/^FONT=/d", "/etc/vconsole.conf"])
+        # Then append cleanly
         util.run_cmd(
             [
                 ESCALATE,
@@ -75,8 +83,9 @@ def install_terminus_console_font():
                 'echo "FONT=ter-v32b" | tee -a /etc/vconsole.conf',
             ]
         )
+        util.print_and_log("Console font set to ter-v32b.")
 
-    # Only try setting font if we are *not* in a graphical environment
+    # Only try setting font if not graphical
     if not os.environ.get("DISPLAY") and not os.environ.get("WAYLAND_DISPLAY"):
         util.print_and_log("Applying Terminus font to TTY...")
         util.run_cmd([ESCALATE, "setfont", "-C", "/dev/tty1", "ter-v32b"])
