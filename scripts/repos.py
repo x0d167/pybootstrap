@@ -1,6 +1,6 @@
 from pathlib import Path
 from utils import common as util
-from utils.aliases import ESCALATE, PKG, MULLVAD_REPO, ONE_PASSWORD
+from utils.aliases import ESCALATE, PKG, ONE_PASSWORD
 from utils.aliases import exit_messages, RPM
 
 
@@ -25,35 +25,6 @@ def install_rpm_fusion():
             exit_code, _ = util.run_cmd([ESCALATE, PKG.d, "install", "-y", url])
             message = exit_messages.get(exit_code, "Unexpected return code")
             util.print_and_log(message)
-
-
-def enable_mullvad_repo():
-    """Enable Mullvad Repo for later installation of vpn"""
-    util.print_and_log_header("Enabling Mullvad Repo")
-    mullvad_repo = MULLVAD_REPO
-    mullvad_template = Path("utils/mullvad.txt")
-
-    # is mullvad repo already there?
-    if mullvad_repo.exists():
-        message = "Mullvad repo is already present."
-        util.print_and_log(message)
-    else:
-        util.print_and_log("Mullvad repo not found. Adding it manually")
-
-        with mullvad_template.open("r") as template:
-            lines = template.readlines()
-
-        temp_path = Path("/tmp/mullvad.repo")
-        with temp_path.open("w") as temp_file:
-            temp_file.writelines(lines)
-
-        mv_exit_code, _ = util.run_cmd(
-            [ESCALATE, "mv", str(temp_path), str(mullvad_repo)]
-        )
-        if mv_exit_code == 0:
-            util.print_and_log("Mullvad repo moved successfully.")
-        else:
-            util.print_and_log("Failed to move Mullvad repo. Please check manually.")
 
 
 def enable_1password_repo():
@@ -105,7 +76,7 @@ def enable_yazi_copr():
     """Enables yazi copr repo for later installation with packages."""
     util.print_and_log_header("Enabling lihaohong/yazi copr")
     exit_code, _ = util.run_cmd(
-        [ESCALATE, PKG.d, "copr", "enable", "--yes", "lihaohong/yazi"]
+        [ESCALATE, PKG.d, "copr", "enable", "-y", "lihaohong/yazi"]
     )
     if exit_code == 0:
         util.print_and_log("lihaohong/yazi successfully enabled.")
@@ -184,9 +155,6 @@ def add_needed_repos():
 
     # Enable 1Password repo
     enable_1password_repo()
-
-    # Enable Mullvad repo
-    enable_mullvad_repo()
 
     # Enable ProtonVPN repo
     enable_protonvpn_repo()

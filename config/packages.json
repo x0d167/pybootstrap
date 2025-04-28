@@ -17,12 +17,10 @@
       "lldb",
       "luarocks",
       "uv",
-      "rust",
       "ruff",
       "ruff-lsp",
       "pytest",
-      "helix",
-      "rust-eza"
+      "helix"
     ],
     "utilities": [
       "btop",
@@ -57,11 +55,10 @@
     ]
   },
   "flatpak": [
-    "dev.zed.Zed",
-    "com.github.Eloston.UngoogledChromium",
+    "io.github.ungoogled_software.ungoogled_chromium",
     "md.obsidian.Obsidian",
     "org.freecadweb.FreeCAD",
-    "org.kicad_pcb.KiCad",
+    "org.kicad.KiCad",
     "org.onlyoffice.desktopeditors",
     "com.discordapp.Discord",
     "org.gimp.GIMP",

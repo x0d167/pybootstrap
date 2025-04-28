@@ -1,4 +1,3 @@
-from pathlib import Path
 from utils import common as util
 from utils.aliases import exit_messages, ESCALATE, PKG
 
@@ -36,55 +35,22 @@ def system_clean():
 
 
 def optimize_dnf():
-    """Optimizes DNF settings before package installation later"""
+    """Log current DNF settings and advise manual review."""
     util.print_and_log_header("Optimizing DNF Settings")
-    for setting, value in [
-        ("max_parallel_downloads", "10"),
-        ("fastestmirror", "True"),
-        ("defaultyes", "True"),
-    ]:
-        if not ensure_dnf_settings(setting, value):
-            message = f"Failed to apply {setting}. Check permissions or path."
-            util.print_and_log(message)
 
-    util.print_and_log_header("Installing DNF Plugins")
-    exit_code, output = util.run_cmd(
-        [ESCALATE, PKG.d, "install", "-y", "dnf-plugins-core"]
+    util.print_and_log("Checking /etc/dnf/dnf.conf contents...")
+
+    exit_code, output = util.run_cmd(["cat", "/etc/dnf/dnf.conf"])
+    if exit_code == 0:
+        util.print_and_log(output)
+    else:
+        util.print_and_log(
+            "Could not read /etc/dnf/dnf.conf. You may need to manually review it."
+        )
+
+    util.print_and_log(
+        "If not already present, add these settings manually to /etc/dnf/dnf.conf:\n"
+        "  - max_parallel_downloads=10\n"
+        "  - fastestmirror=True\n"
+        "  - defaultyes=True"
     )
-    message = exit_messages.get(exit_code, "Unexpected return code")
-    util.print_and_log(message)
-
-
-def ensure_dnf_settings(setting, value):
-    """Ensure a key=value line is present in  /etc/dnf/dnf.conf"""
-    conf_path = Path("/etc/dnf/dnf.conf")
-
-    try:
-        with conf_path.open("r") as file:
-            lines = file.readlines()
-    except PermissionError:
-        print("You need to run this script with elevated privileges.")
-        return
-    except FileNotFoundError:
-        print("dnf.conf not found! Are you sure DNF is installed?")
-        return
-
-    setting_line = f"{setting}={value}\n"
-    found = False
-
-    for i, line in enumerate(lines):
-        if line.strip().startswith(f"{setting}="):
-            lines[i] = setting_line
-            found = True
-            break
-
-    if not found:
-        lines.append(setting_line)
-
-    with conf_path.open("w") as file:
-        file.writelines(lines)
-
-    message = f"Ensured: {setting}={value}"
-    util.log_line(message)
-
-    return True

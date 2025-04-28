@@ -42,9 +42,11 @@ def main():
 
 if __name__ == "__main__":
     # 🛡️ Check for sudo/root privileges
-    if os.geteuid() != 0:
-        print("❌ This script must be run with elevated privileges (sudo).")
-        print("💡 Try: sudo python3 main.py")
+    if os.geteuid() == 0:
+        print(
+            "❌ Do not run pybootstrap with sudo! It will break your home folder setup."
+        )
+        print("💡 Just run: python3 main.py")
         sys.exit(1)
 
     start_time = time.time()

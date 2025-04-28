@@ -6,10 +6,10 @@ from utils.aliases import ESCALATE, PKG
 def enable_and_configure_ufw():
     """A function to enable and configure UFW firewall settings"""
     util.print_and_log("Confirming presence of UFW...")
-    exit_code, _ = util.run_cmd([PKG.d, "list", "installed", "UFW"])
+    exit_code, _ = util.run_cmd([PKG.d, "list", "installed", "ufw"])
     if exit_code != 0:
         util.print_and_log("UFW not found. Installing...")
-        install_code, _ = util.run_cmd([ESCALATE, PKG.d, "install", "UFW"])
+        install_code, _ = util.run_cmd([ESCALATE, PKG.d, "install", "ufw"])
         if install_code == 0:
             util.print_and_log("UFW has now been installed.")
         else:
@@ -20,20 +20,20 @@ def enable_and_configure_ufw():
     # run the setup commands
     util.print_and_log("enabling sensible settings...")
     # disable UFW
-    util.run_cmd([ESCALATE, "UFW", "disable"])
+    util.run_cmd([ESCALATE, "ufw", "disable"])
     # change settings
     util.print_and_log("Default to deny incoming")
-    util.run_cmd([ESCALATE, "UFW", "default", "deny", "incoming"])
+    util.run_cmd([ESCALATE, "ufw", "default", "deny", "incoming"])
     util.print_and_log("Default to allow outgoing")
-    util.run_cmd([ESCALATE, "UFW", "default", "allow", "outgoing"])
+    util.run_cmd([ESCALATE, "ufw", "default", "allow", "outgoing"])
     util.print_and_log("Limit ssh...")
-    util.run_cmd([ESCALATE, "UFW", "limit", "ssh"])
+    util.run_cmd([ESCALATE, "ufw", "limit", "ssh"])
     # re-enable UFW
     util.print_and_log("Enabling UFW...")
-    util.run_cmd([ESCALATE, "UFW", "--force", "enable"])
+    util.run_cmd([ESCALATE, "ufw", "--force", "enable"])
 
     util.print_and_log("Checking UFW status...")
-    _, status_output = util.run_cmd([ESCALATE, "UFW", "status", "verbose"])
+    _, status_output = util.run_cmd([ESCALATE, "ufw", "status", "verbose"])
     util.print_and_log(status_output)
 
     util.print_and_log("UFW is now enabled. Firewall status checked!")

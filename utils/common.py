@@ -1,7 +1,6 @@
 import subprocess
 from pathlib import Path
 from datetime import datetime
-from utils.aliases import PROJECT_NAME
 
 
 def run_cmd(cmd):
@@ -27,8 +26,11 @@ def run_cmd(cmd):
 
 def get_logfile_path():
     """Gets or makes the log file path on the system"""
-    log_base = Path.home() / ".local" / "var" / "log" / PROJECT_NAME
-    log_base.mkdir(parents=True, exist_ok=True)
+    log_base = Path.home() / ".local" / "var" / "log" / "pybootstrap"
+    try:
+        log_base.mkdir(parents=True, exist_ok=True)
+    except Exception as e:
+        print(f"Failed to create log directory: {e}")
     return log_base / "bootstrap.log"
 
 
