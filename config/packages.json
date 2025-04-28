@@ -48,8 +48,6 @@
       "fail2ban",
       "rkhunter",
       "lynis",
-      "mullvad-browser",
-      "mullvad-vpn",
       "1password",
       "1password-cli"
     ]
