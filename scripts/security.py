@@ -83,6 +83,7 @@ def enable_fail2ban():
     exit_code, _ = util.run_cmd([PKG.d, "list", "installed", "fail2ban"])
     if exit_code == 0:
         util.print_and_log("Enabling Fail2ban...")
+        util.run_cmd([ESCALATE, "systemctl", "start", "fail2ban"])
         util.run_cmd([ESCALATE, "systemctl", "enable", "--now", "fail2ban"])
         _, status = util.run_cmd(
             [ESCALATE, "systemctl", "status", "fail2ban", "--no-pager"]

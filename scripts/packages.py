@@ -68,7 +68,9 @@ def install_new_packages():
                         util.print_and_log(f"{pkg} exists. Skipping...")
                     else:
                         util.print_and_log(f"{pkg} not found. Adding flatpak...")
-                        install_code = util.run_cmd([PKG.f, "install", "-y", str(pkg)])
+                        install_code = util.run_cmd(
+                            [PKG.f, "install", "flathub", "-y", str(pkg)]
+                        )
                         if install_code == 0:
                             util.print_and_log(f"{pkg} successfully installed.")
                         else:
