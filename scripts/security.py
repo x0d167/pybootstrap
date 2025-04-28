@@ -54,10 +54,22 @@ def sysctl_system_hardening():
         "net.ipv4.conf.all.log_martians = 1\n",
     ]
 
+    temp_conf = Path("/tmp/99-laptop-hardening.conf")
     sysctl_harden_conf = Path("/etc/sysctl.d/99-laptop-hardening.conf")
 
-    with sysctl_harden_conf.open("w") as filename:
-        filename.writelines(sysctl_settings)
+    # Write to a temp file first
+    with temp_conf.open("w") as file:
+        file.writelines(sysctl_settings)
+
+    # Move it into place with sudo
+    move_exit_code, _ = util.run_cmd(
+        [ESCALATE, "mv", str(temp_conf), str(sysctl_harden_conf)]
+    )
+
+    if move_exit_code == 0:
+        util.print_and_log("Sysctl config moved successfully.")
+    else:
+        util.print_and_log("Sysctl config move failed. Please check manually.")
 
     util.run_cmd([ESCALATE, "sysctl", "--system"])
     util.print_and_log("sysctl settings have been updated.")
@@ -106,3 +118,7 @@ def security_setup():
     enable_fail2ban()
 
     util.print_and_log("Security setup is complete...")
+
+
+if __name__ == "__main__":
+    security_setup()

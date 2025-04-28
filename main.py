@@ -60,5 +60,5 @@ if __name__ == "__main__":
     )
 
     print("Opening log file for review...")
-    log_path = Path.home() / "archive" / "logs" / "bootstrap" / "bootstrap.log"
+    log_path = Path.home() / ".local" / "var" / "log" / "pybootstrap" / "bootstrap.log"
     subprocess.run(["xdg-open", str(log_path)])

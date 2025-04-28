@@ -68,6 +68,18 @@ def enable_1password_repo():
         )
         if onepass_exit_code == 0:
             util.print_and_log("1Password repo moved successfully")
+            util.run_cmd(
+                [
+                    ESCALATE,
+                    PKG.d,
+                    "config-manager",
+                    "--setopt=1password.gpgcheck=0",
+                    "--save",
+                ]
+            )
+            util.print_and_log(
+                "Configured 1Password repo to skip GPG check for initial setup."
+            )
         else:
             util.print_and_log("Failed to move 1Password repo. Please check manually")
 
