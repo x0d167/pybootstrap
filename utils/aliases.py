@@ -28,5 +28,4 @@ exit_messages = {
 }
 
 
-MULLVAD_REPO = Path("/etc/yum.repos.d/mullvad.repo")
 ONE_PASSWORD = Path("/etc/yum.repos.d/1password.repo")
