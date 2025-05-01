@@ -134,6 +134,28 @@ def install_rustup():
     util.print_and_log("Rust installed. You may need to restart your terminal.")
 
 
+def install_proton_pass():
+    """Install Proton Pass as alternative to 1Password. Installing both for
+    now"""
+
+    util.print_and_log("Installing Proton Pass...")
+    url = "https://proton.me/download/PassDesktop/linux/x64/ProtonPass.rpm"
+    temp_path = Path("/tmp/protonpass.rpm")
+
+    util.print_and_log("Downloading ProtonPass.rpm")
+    util.run_cmd(["curl", "-L", "-o", temp_path, url])
+
+    util.print_and_log("Installing package...")
+    install_code, _ = util.run_cmd([ESCALATE, PKG.d, "install", "-y", str(temp_path)])
+    if install_code == 0:
+        util.print_and_log("Proton Pass installed successfully")
+    else:
+        util.print_and_log("Proton Pass installation failed.")
+
+    util.print_and_log("Cleaning up temporary files.")
+    util.run_cmd(["rm", "-f", str(temp_path)])
+
+
 def install_packages():
     """Orchestrator of the package install scripts."""
     util.print_and_log_header("Installing Required System Packages")

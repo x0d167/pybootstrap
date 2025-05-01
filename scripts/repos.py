@@ -96,6 +96,18 @@ def enable_yazi_copr():
         util.print_and_log("Failed to enable lihaohong/yazi. Please check manually")
 
 
+def enable_zen_copr():
+    """Enables sneexy/zen-browser copr because ain't nobody got time fothat"""
+    util.print_and_log_header("Enabling sneexy/zen-browser copr")
+    exit_code, _ = util.run_cmd(
+        [ESCALATE, PKG.d, "copr", "enable", "-y", "sneexy/zen-browser"]
+    )
+    if exit_code == 0:
+        util.print_and_log("sneexy/zen-browser successfully enabled.")
+    else:
+        util.print_and_log("Failed to enable sneexy/zen-browser. Please check manually")
+
+
 def enable_protonvpn_repo():
     """Enables ProtonVPN Repo and installs it"""
     util.print_and_log_header("Enabling ProtonVPN Repo")
@@ -173,6 +185,9 @@ def add_needed_repos():
 
     # Enable Yazi copr
     enable_yazi_copr()
+
+    # Enable zen copr
+    enable_zen_copr()
 
     # Enable openH264 repo
     enable_openh264_repo()

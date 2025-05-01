@@ -40,7 +40,8 @@
       "tealdeer",
       "yazi",
       "kitty",
-      "zoxide"
+      "zoxide",
+      "zen-browser"
     ],
     "security": [
       "ufw",
@@ -58,7 +59,6 @@
     "org.kicad.KiCad",
     "org.onlyoffice.desktopeditors",
     "com.discordapp.Discord",
-    "org.gimp.GIMP",
-    "app.zen_browser.zen"
+    "org.gimp.GIMP"
   ]
 }

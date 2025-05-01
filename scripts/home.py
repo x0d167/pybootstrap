@@ -28,7 +28,7 @@ def setup_home_directories():
     user_dirs = Path.home() / ".config" / "user-dirs.dirs"
     folders_map = {
         "XDG_DESKTOP_DIR": "$HOME/archive/desktop",
-        "XDG_DOWNLOAD_DIR": "$HOME/tmp",
+        "XDG_DOWNLOAD_DIR": "$HOME/tmp/downloads",
         "XDG_TEMPLATES_DIR": "$HOME/archive/templates",
         "XDG_PUBLICSHARE_DIR": "$HOME/tmp/public",
         "XDG_DOCUMENTS_DIR": "$HOME/docs",

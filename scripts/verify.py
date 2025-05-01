@@ -103,7 +103,7 @@ def main():
     # After other checks
     expected_mappings = {
         "XDG_DOCUMENTS_DIR": "docs",
-        "XDG_DOWNLOAD_DIR": "tmp",
+        "XDG_DOWNLOAD_DIR": "tmp/downloads",
         "XDG_PICTURES_DIR": "media/pictures",
         "XDG_MUSIC_DIR": "media/music",
         "XDG_VIDEOS_DIR": "media/videos",
