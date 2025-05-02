@@ -41,7 +41,8 @@
       "yazi",
       "kitty",
       "zoxide",
-      "zen-browser"
+      "zen-browser",
+      "syncthing"
     ],
     "security": [
       "ufw",
@@ -59,6 +60,7 @@
     "org.kicad.KiCad",
     "org.onlyoffice.desktopeditors",
     "com.discordapp.Discord",
-    "org.gimp.GIMP"
+    "org.gimp.GIMP",
+    "org.libreoffice.LibreOffice"
   ]
 }
