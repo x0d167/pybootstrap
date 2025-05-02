@@ -25,9 +25,7 @@ def install_new_packages():
                     util.print_and_log(f"Adding {segment_name} packages")
                     for pkg in pkg_list:
                         util.print_and_log(f"Checking for {pkg}...")
-                        exit_code, _ = util.run_cmd(
-                            [PKG.d, "list", "installed", str(pkg)]
-                        )
+                        exit_code, _ = util.run_cmd(["rpm", "-q", str(pkg)])
                         if exit_code != 0:
                             fail_exit, _ = util.run_cmd(["which", str(pkg)])
                             if fail_exit != 0:
@@ -65,12 +63,12 @@ def install_new_packages():
                 util.print_and_log("Processing flatpak list...")
                 for pkg in segments:
                     util.print_and_log(f"Checking for {pkg}...")
-                    exit_code = util.run_cmd([PKG.f, "info", str(pkg)])
+                    exit_code, _ = util.run_cmd([PKG.f, "info", str(pkg)])
                     if exit_code == 0:
                         util.print_and_log(f"{pkg} exists. Skipping...")
                     else:
                         util.print_and_log(f"{pkg} not found. Adding flatpak...")
-                        install_code = util.run_cmd(
+                        install_code, _ = util.run_cmd(
                             [PKG.f, "install", "flathub", "-y", str(pkg)]
                         )
                         if install_code == 0:
@@ -168,3 +166,6 @@ def install_packages():
 
     # Install rustup
     install_rustup()
+
+    # Install Proton Pass
+    install_proton_pass()
