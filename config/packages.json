@@ -61,6 +61,8 @@
     "org.onlyoffice.desktopeditors",
     "com.discordapp.Discord",
     "org.gimp.GIMP",
-    "org.libreoffice.LibreOffice"
+    "org.libreoffice.LibreOffice",
+    "com.github.tchx84.Flatseal",
+    "com.github.finefindus.eyedropper"
   ]
 }
