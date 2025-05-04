@@ -42,7 +42,10 @@
       "kitty",
       "zoxide",
       "zen-browser",
-      "syncthing"
+      "syncthing",
+      "qemu",
+      "virt-install",
+      "libvirt"
     ],
     "security": [
       "ufw",
